@@ -1,0 +1,34 @@
+"""
+API route definitions for PulseAPI.
+"""
+
+from fastapi import APIRouter
+
+from app.models.schema import WineFeatures, PredictionResponse
+from app.services.predictor import predict
+
+router = APIRouter()
+
+
+@router.get("/health")
+def health_check() -> dict:
+    """
+    Health check endpoint.
+
+    Returns a simple status to confirm the API is running.
+    Used by monitoring tools, load balancers, or just you,
+    to verify the service is alive.
+    """
+    return {"status": "ok"}
+
+
+@router.post("/predict", response_model=PredictionResponse)
+def predict_wine_class(features: WineFeatures) -> PredictionResponse:
+    """
+    Predict the wine class from input features.
+
+    Accepts the 13 chemical measurements the model was trained on
+    and returns the predicted class along with the model's
+    confidence in that prediction.
+    """
+    return predict(features)

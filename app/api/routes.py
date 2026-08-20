@@ -3,7 +3,6 @@ API route definitions for PulseAPI.
 """
 
 from fastapi import APIRouter
-
 from app.models.schema import WineFeatures, PredictionResponse
 from app.services.predictor import predict
 
